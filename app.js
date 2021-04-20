@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // weaselWare
-app.use(weaselWare());
+app.use(weaselWare);
 
 /** STATIC FILES*/
 app.use(express.static(path.join(__dirname, 'public')));
