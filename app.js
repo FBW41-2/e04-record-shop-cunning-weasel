@@ -40,5 +40,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/records', recordsRouter);
 
+// start the server / wait for requests on port 8090
+const port = process.env.PORT || process.argv[2] || 8090;
+app.listen(port, () => console.log(`server started on port 🔥${port}🔥`));
+
 /** EXPORT PATH */
 module.exports = app;
+
