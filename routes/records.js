@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getRecords,
+  getRecord,
   putRecord,
   delRecord,
 } = require("../controllers/recordsController");
@@ -9,7 +9,7 @@ const {
 /**
  * GET all records
  */
-router.get("/:id", getRecords);
+router.get("/:id", getRecord);
 
 // update record
 router.put("/id", putRecord);

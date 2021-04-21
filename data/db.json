@@ -6,6 +6,12 @@
       "lastName": "cunning",
       "email": "weasel@cunning.com",
       "password": "weasel"
+    },
+    {
+      "firstName": "Pablo",
+      "lastName": "Escpbar",
+      "email": "pabloTheDon",
+      "password": "say hello to ma lil friend"
     }
   ],
   "orders": [

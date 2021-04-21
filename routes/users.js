@@ -8,11 +8,6 @@ const {
   delUser,
 } = require("../controllers/usersController");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
-
 /**
  * GET all users
  */

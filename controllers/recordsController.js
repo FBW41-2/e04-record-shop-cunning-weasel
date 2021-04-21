@@ -3,7 +3,7 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("data/db.json");
 const db = low(adapter);
 
-exports.getRecords = (req, res, next) => {
+exports.getRecord = (req, res) => {
   // const records = db.get('records').value()
   // res.status(200).send(records);
   // need to add id specific find here

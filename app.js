@@ -25,10 +25,18 @@ const adapter = new FileSync("data/db.json");
 const db = low(adapter);
 // added another default data-point to lowDB
 db.defaults(
-  { records: [] },
+  {
+    records: [
+      {
+        title: "how to weasel",
+        id: 1,
+      },
+    ],
+  },
   {
     users: [
       {
+        id: 1,
         firstName: "Weasel",
         lastName: "cunning",
         email: "weasel@cunning.com",
