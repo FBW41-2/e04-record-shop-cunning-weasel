@@ -10,11 +10,18 @@ const { getRecords, addRecord } = require('../controllers/recordsController');
 /**
  * GET all records
  */
-router.get('/', getRecords);
+router.get('/:id', getRecords);
 
 /**
 * POST a record
  */
-router.post('/', addRecord);
+router.post('/:id', addRecord);
+
+// update record 
+router.put("/id", putRecord);
+
+// delete record 
+router.delete("/:id", delRecord);
+
 
 module.exports = router;

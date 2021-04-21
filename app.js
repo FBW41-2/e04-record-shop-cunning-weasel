@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recordsRouter = require('./routes/records');
 const { setCors } = require("./middleware/security");
+const errorHandler = require("./middleware/errorHandler");
 
 /** INIT */
 const app = express();
@@ -18,31 +19,26 @@ const app = express();
 /** LOGGING */
 app.use(logger('dev'));
 
-
 /** SETTING UP LOWDB */
 const adapter = new FileSync('data/db.json');
 const db = low(adapter);
 db.defaults({ records:[] }).write();
-
 
 /** REQUEST PARSERS */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(setCors);
+// added error-handler MW - weasel
+app.use(errorHandler);
 
 /** STATIC FILES*/
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 /** ROUTES */
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/records', recordsRouter);
-
-// start the server / wait for requests on port 8090
-const port = process.env.PORT || process.argv[2] || 8090;
-app.listen(port, () => console.log(`server started on port 🔥${port}🔥`));
 
 /** EXPORT PATH */
 module.exports = app;
