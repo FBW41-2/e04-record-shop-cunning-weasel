@@ -31,6 +31,10 @@ db.defaults(
         title: "how to weasel",
         id: 1,
       },
+      {
+          title: "how to Basem",
+          id: 2,
+      }
     ],
   },
   {
@@ -49,6 +53,7 @@ db.defaults(
       {
         id: 1,
         qty: 10,
+        name: "some-thing"
       },
     ],
   }

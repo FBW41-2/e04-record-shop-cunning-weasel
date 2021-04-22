@@ -11,7 +11,12 @@ exports.getAllOrders = (req, res) => {
 
 // get a single order
 exports.getOrder = (req, res) => {
-  db.get("orders").find({ id: req.params.id }.value());
+  const findOrder = db.get("orders").find({id: req.params.id}.value());
+  if (findOrder === null) {
+      res.send("can't find user guv'nor");
+  } else {
+      res.json(findOrder);
+  }
 };
 
 // post a single order

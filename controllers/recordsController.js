@@ -4,20 +4,23 @@ const adapter = new FileSync("data/db.json");
 const db = low(adapter);
 
 exports.getRecord = (req, res) => {
-  // const records = db.get('records').value()
-  // res.status(200).send(records);
-  // need to add id specific find here
-  db.get("records").find({ id: req.params.id }.value());
+  const findRecord = db.get("records").find({id: req.params.id}.value());
+  if (findRecord === null) {
+      res.send("can't find user guv'nor");
+  } else {
+      res.json(findRecord);
+  }
 };
 
 exports.putRecord = (req, res) => {
   db.get("records")
     .find({ id: req.params.id })
-    .assign({ id: req.params.id })
+    .assign({ id: req.params.id, title: req.params.title })
     .write();
 };
 
 exports.delRecord = (req, res) => {
-  db.get("records").remove({ id: req.params.id }).write();
+  const delRecord = db.get("records").remove({ id: req.params.id }).write();
+  res.json(delRecord);
 };
 

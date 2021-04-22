@@ -7,12 +7,12 @@ const {
 } = require("../controllers/recordsController");
 
 /**
- * GET all records
+ * GET a single record
  */
 router.get("/:id", getRecord);
 
 // update record
-router.put("/id", putRecord);
+router.put("/:id", putRecord);
 
 // delete record
 router.delete("/:id", delRecord);

@@ -11,7 +11,12 @@ exports.getAllUsers = (req, res) => {
 
 // get a single user
 exports.getUser = (req, res) => {
-  db.get("users").find({ id: req.params.id }.value());
+  const findUser = db.get("users").find({id: req.params.id}.value());
+  if (findUser === null) {
+      res.send("can't find user guv'nor");
+  } else {
+      res.json(findUser);
+  }
 };
 
 // post a single user
@@ -24,12 +29,12 @@ exports.postUser = (req, res) => {
 // put a single user
 exports.putUser = (req, res) => {
   db.get("users")
-    .find({ firstName: req.params.firstName })
-    .assign({ firstName: req.params.firstName })
+    .find({ id: req.params.id })
+    .assign({ id: req.params.id })
     .write();
 };
 
 // del a single user
 exports.delUser = (req, res) => {
-  db.get("users").remove({ firstName: req.params.firstName }).write();
+  db.get("users").remove({ id: req.params.id }).write();
 };

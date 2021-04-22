@@ -1,23 +1,28 @@
 {
-  "records": [],
+  "records": [
+    {
+      "title": "how to weasel",
+      "id": 1
+    },
+    {
+      "title": "how to Basem",
+      "id": 2
+    }
+  ],
   "users": [
     {
+      "id": 1,
       "firstName": "Weasel",
       "lastName": "cunning",
       "email": "weasel@cunning.com",
       "password": "weasel"
-    },
-    {
-      "firstName": "Pablo",
-      "lastName": "Escpbar",
-      "email": "pabloTheDon",
-      "password": "say hello to ma lil friend"
     }
   ],
   "orders": [
     {
       "id": 1,
-      "qty": 10
+      "qty": 1,
+      "name": "some-weasel"
     }
   ]
 }
