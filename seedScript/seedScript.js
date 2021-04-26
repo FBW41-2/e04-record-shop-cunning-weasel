@@ -9,7 +9,7 @@ const url = "mongodb://localhost:3000";
 const dbName = "faker_database";
 
 // Use connect method to connect to the server
-MongoClient.connect(url, function(err, client) {
+MongoClient.connect(url, (err, client) => {
   assert.equal(null, err);
 
   const db = client.db(dbName);
@@ -43,7 +43,7 @@ MongoClient.connect(url, function(err, client) {
       body: faker.lorem.words(500),
 
       // use lodash to pick a random user as the author of this post
-      author: _.sample(users),
+     author: _.sample(users),
 
       // use lodash to add a random subset of the users to this post
       likes: _.sampleSize(users, Math.round(Math.random * users.length)).map(

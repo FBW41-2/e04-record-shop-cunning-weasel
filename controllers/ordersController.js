@@ -46,7 +46,7 @@ exports.updateOrder = (req, res, next) => {
 };
 
 exports.addOrder = (req, res, next) => {
-  const record = req.body;
+  const order = req.body;
   // access db from global object
   req.app.locals.db.collection("orders").insertOne(order, (err, entry) => {
     res.json(entry);
