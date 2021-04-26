@@ -17,7 +17,7 @@ app.use(logger("dev"));
 async function connectDB() {
   //                                                    db name
   const url =
-    "mongodb+srv://dbUser:hakLtZiWGKYsKlDm@cluster0.ddzgb.mongodb.net/record-shop?retryWrites=true&w=majority";
+    "mongodb+srv://MasterWeasel:MistaPaul1!@cluster0.nqalc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
   const client = new MongoClient(url);
 
   try {
