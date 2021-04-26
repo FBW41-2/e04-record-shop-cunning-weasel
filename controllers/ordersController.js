@@ -1,39 +1,54 @@
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('data/db.json');
-const db = low(adapter);
-
+const mongodb = require("mongodb");
 
 exports.getOrders = (req, res, next) => {
-    const orders = db.get('orders').value()
-    res.status(200).send(orders);
+    req.app.locals.db
+    .collection("orders")
+    .find()
+    .toArray((err, docs) => {
+      res.json(docs);
+    });
 }
 
 exports.getOrder = (req, res, next) => {
     const { id } = req.params;
-    const order = db.get('orders').find({ id });
-    res.status(200).send(order);
+    req.app.locals.db
+      .collection("orders")
+      .findOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
+        res.json(result);
+      });
 }
 
 exports.deleteOrder = (req, res, next) => {
     const { id } = req.params;
-    const order = db.get('orders').remove({ id }).write();
-    res.status(200).send(order);
+    req.app.locals.db
+      .collection("orders")
+      .deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
+        if (err) console.error(err);
+        console.log("del result", result);
+        res.json({ deleted: result.deletedCount });
+      });
 }
 
 exports.updateOrder = (req, res, next) => {
     const { id } = req.params;
-    const dt = req.body;
-    const order = db.get('orders').find({ id }).assign(dt).write();
-    res.status(200).send(order);
+    req.app.locals.db.collection("orders").updateOne(
+      // filter
+      { _id: new mongodb.ObjectID(id) },
+      // new data
+      {
+        $set: req.body,
+      },
+      // callback function
+      (err, entry) => {
+        res.json(entry);
+      }
+    );
 }
 
 exports.addOrder = (req, res, next) => {
-    const order = req.body;
-    db.get('orders').push(order)
-        .last()
-        .assign({ id: Date.now().toString() })
-        .write();
-
-    res.status(200).send(order);
+    const record = req.body;
+    // access db from global object
+    req.app.locals.db.collection("orders").insertOne(order, (err, entry) => {
+      res.json(entry);
+    });
 }
