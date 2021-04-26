@@ -6,7 +6,6 @@ const adapter = new FileSync('data/db.json');
 const db = low(adapter);
 const { getUsers, getUser, updateUser, deleteUser, addUser } = require('../controllers/usersController');
 
-
 router.
     route('/').   
     get(getUsers).
