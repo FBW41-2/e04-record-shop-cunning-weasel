@@ -1,3 +1,9 @@
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 const { MongoClient } = require("mongodb");
 
 /** ROUTERS */
@@ -17,7 +23,7 @@ app.use(logger("dev"));
 async function connectDB() {
   //                                                    db name
   const url =
-    "mongodb+srv://MasterWeasel:MistaPaul1!@cluster0.nqalc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    "mongodb+srv://MasterWeasel:MistaPaul1!@cluster0.nqalc.mongodb.net/record-shop?retryWrites=true&w=majority";
   const client = new MongoClient(url);
 
   try {
