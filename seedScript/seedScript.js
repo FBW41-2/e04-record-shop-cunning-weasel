@@ -8,7 +8,7 @@ const url = "mongodb://localhost:3000";
 // Database Name
 const dbName = "faker_database";
 
-// Use connect method to connect to the server
+// Use connect method to connect to the server - refactor the below for my needs
 MongoClient.connect(url, (err, client) => {
   assert.equal(null, err);
 
