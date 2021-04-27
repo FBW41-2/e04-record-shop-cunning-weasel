@@ -10,7 +10,7 @@ const dbName = "faker_database";
 
 // Use connect method to connect to the server - refactor the below for my needs
 MongoClient.connect(url, (err, client) => {
-  assert.equal(null, err);
+  assert.strictEqual(null, err);
 
   const db = client.db(dbName);
 
