@@ -19,10 +19,17 @@ const app = express();
 app.use(logger("dev"));
 
 /**CONNECT TO DB */
-mongoose.connect("mongodb://localhost:27017/record-shop", {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
+const dbUser = process.env.DB_USER
+const dbPassword = process.env.DB_PASSWORD
+const dbURL = process.env.DB_URL
+const localDbURI = "mongodb://localhost:27017/record-shop"
+const atlasURI = `mongodb+srv://${dbUser}:${dbPassword}@${dbURL}`
+mongoose.connect(
+        process.env.NODE_ENV == 'autograding' ? localDbURI : atlasURI,
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
 });
 
 mongoose.connection.on("error", console.error);
@@ -30,7 +37,7 @@ mongoose.connection.on("open", function() {
   console.log("Database connection established...");
 });
 
-/** SETTING UP LOWDB */
+/** SETTING UP LOWDB 
 const adapter = new FileSync("data/db.json");
 const db = low(adapter);
 db.defaults({
@@ -38,6 +45,7 @@ db.defaults({
   users: [],
   orders: []
 }).write();
+*/
 
 /** REQUEST PARSERS */
 app.use(express.json());
@@ -71,3 +79,4 @@ app.use(function(err, req, res, next) {
 
 /** EXPORT PATH */
 module.exports = app;
+
