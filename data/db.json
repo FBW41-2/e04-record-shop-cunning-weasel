@@ -23,6 +23,30 @@
       "img": "I am a url",
       "price": 40,
       "id": "1568389444500"
+    },
+    {
+      "title": "Greatest Hits special edition",
+      "artist": "George Michael",
+      "year": 2002,
+      "img": "img/folder",
+      "price": 10,
+      "id": "1620129035483"
+    },
+    {
+      "title": "Greatest Hits special edition",
+      "artist": "George Michael",
+      "year": 2002,
+      "img": "img/folder",
+      "price": 10,
+      "id": "1620129189832"
+    },
+    {
+      "title": "Greatest Hits special edition",
+      "artist": "George Michael",
+      "year": 2002,
+      "img": "img/folder",
+      "price": 10,
+      "id": "1620129608087"
     }
   ],
   "users": [

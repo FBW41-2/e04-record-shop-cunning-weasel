@@ -1,54 +1,53 @@
-const mongodb = require("mongodb");
+const Order = require("../models/Order");
+const createError = require("http-errors");
 
-exports.getOrders = (req, res, next) => {
-  req.app.locals.db
-    .collection("orders")
-    .find()
-    .toArray((err, docs) => {
-      res.json(docs);
+exports.getOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find();
+    res.status(200).send(orders);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.getOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) throw new createError.NotFound();
+    res.status(200).send(order);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.deleteOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) throw new createError.NotFound();
+    res.status(200).send(order);
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.updateOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
     });
+    if (!order) throw new createError.NotFound();
+    res.status(200).send(order);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.getOrder = (req, res, next) => {
-  const { id } = req.params;
-  req.app.locals.db
-    .collection("orders")
-    .findOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
-      res.json(result);
-    });
-};
-
-exports.deleteOrder = (req, res, next) => {
-  const { id } = req.params;
-  req.app.locals.db
-    .collection("orders")
-    .deleteOne({ _id: new mongodb.ObjectID(id) }, (err, result) => {
-      if (err) console.error(err);
-      console.log("del result", result);
-      res.json({ deleted: result.deletedCount });
-    });
-};
-
-exports.updateOrder = (req, res, next) => {
-  const { id } = req.params;
-  req.app.locals.db.collection("orders").updateOne(
-    // filter
-    { _id: new mongodb.ObjectID(id) },
-    // new data
-    {
-      $set: req.body,
-    },
-    // callback function
-    (err, entry) => {
-      res.json(entry);
-    }
-  );
-};
-
-exports.addOrder = (req, res, next) => {
-  const order = req.body;
-  // access db from global object
-  req.app.locals.db.collection("orders").insertOne(order, (err, entry) => {
-    res.json(entry);
-  });
+exports.addOrder = async (req, res, next) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(200).send(order);
+  } catch (e) {
+    next(e);
+  }
 };

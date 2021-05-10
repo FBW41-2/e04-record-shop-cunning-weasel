@@ -1,26 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const adapter = new FileSync("data/db.json");
-const db = low(adapter);
+// import body func from express validator
+const { userValidators } = require("../lib/userRules");
+
 const {
   getUsers,
   getUser,
   updateUser,
   deleteUser,
-  addUser
+  addUser,
 } = require("../controllers/usersController");
 
 router
   .route("/")
   .get(getUsers)
-  .post(addUser);
+  // here wanna validate email to check if data is good to go:
+  // take email field from req - check against data schema
+  .post(userValidators, addUser);
 
-router
-  .route("/:id")
+router.route("/:id")
   .get(getUser)
-  .delete(deleteUser)
-  .put(updateUser);
+  .delete(deleteUser).put(updateUser);
 
 module.exports = router;

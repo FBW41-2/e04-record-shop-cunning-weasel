@@ -4,24 +4,24 @@ const { Schema } = mongoose;
 const RecordSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   artist: {
     type: String,
-    required: true
+    required: true,
   },
   year: {
     type: Number,
-    required: true
+    required: true,
   },
   img: {
     type: String,
-    required: true
+    required: true,
   },
   price: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Record", RecordSchema);

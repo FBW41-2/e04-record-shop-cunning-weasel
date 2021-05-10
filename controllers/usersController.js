@@ -1,44 +1,57 @@
+const { userValidators } = require("express-validator");
 const User = require("../models/User");
 
-exports.getUsers = (req, res, next) => {
-  const users = db.get("users").value();
-  res.status(200).send(users);
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.status(200).send(users);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.getUser = (req, res, next) => {
-  const { id } = req.params;
-  User.findById(id, (err, user) => {
-    res.json(user);
-  })
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) throw new createError.NotFound();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.deleteUser = (req, res, next) => {
-  const { id } = req.params;
-  const user = db
-    .get("users")
-    .remove({ id })
-    .write();
-  res.status(200).send(user);
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) throw new createError.NotFound();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.updateUser = (req, res, next) => {
-  const { id } = req.params;
-  const dt = req.body;
-  const user = db
-    .get("users")
-    .find({ id })
-    .assign(dt)
-    .write();
-  res.status(200).send(user);
+exports.updateUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    });
+    if (!user) throw new createError.NotFound();
+    res.status(200).send(user);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.addUser = (req, res, next) => {
-  const user = req.body;
-  db.get("users")
-    .push(user)
-    .last()
-    .assign({ id: Date.now().toString() })
-    .write();
-
-  res.status(200).send(user);
+exports.addUser = async (req, res, next) => {
+  const errors = userValidators(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    const user = new User(req.body);
+    await user.save();
+  } catch (e) {
+    next(e);
+  }
 };
+

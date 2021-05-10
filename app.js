@@ -37,16 +37,6 @@ mongoose.connection.on("open", function() {
   console.log("Database connection established...");
 });
 
-/** SETTING UP LOWDB 
-const adapter = new FileSync("data/db.json");
-const db = low(adapter);
-db.defaults({
-  records: [],
-  users: [],
-  orders: []
-}).write();
-*/
-
 /** REQUEST PARSERS */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
