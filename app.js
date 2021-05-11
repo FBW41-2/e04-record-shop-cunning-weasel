@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 /** ROUTERS */
 const indexRouter = require("./routes/index");
@@ -35,7 +36,7 @@ mongoose.connect(
 
 mongoose.connection.on("error", console.error);
 mongoose.connection.on("open", function () {
-  console.log("Database connection established...");
+  console.log("➡️➡️ Database connection established...");
 });
 
 /** REQUEST PARSERS */
