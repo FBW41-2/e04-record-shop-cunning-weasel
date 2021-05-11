@@ -19,21 +19,22 @@ const app = express();
 app.use(logger("dev"));
 
 /**CONNECT TO DB */
-const dbUser = process.env.DB_USER
-const dbPassword = process.env.DB_PASSWORD
-const dbURL = process.env.DB_URL
-const localDbURI = "mongodb://localhost:27017/record-shop"
-const atlasURI = `mongodb+srv://${dbUser}:${dbPassword}@${dbURL}`
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const dbURL = process.env.DB_URL;
+const localDbURI = "mongodb://localhost:27017/record-shop";
+const atlasURI = `mongodb+srv://${dbUser}:${dbPassword}@${dbURL}`;
 mongoose.connect(
-        process.env.NODE_ENV == 'autograding' ? localDbURI : atlasURI,
-    {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true
-});
+  process.env.NODE_ENV == "autograding" ? localDbURI : atlasURI,
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  }
+);
 
 mongoose.connection.on("error", console.error);
-mongoose.connection.on("open", function() {
+mongoose.connection.on("open", function () {
   console.log("Database connection established...");
 });
 
@@ -53,20 +54,19 @@ app.use("/records", recordsRouter);
 app.use("/orders", ordersRouter);
 
 /** ERROR HANDLING */
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const error = new Error("Looks like something broke...");
   error.status = 400;
   next(error);
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500).send({
     error: {
-      message: err.message
-    }
+      message: err.message,
+    },
   });
 });
 
 /** EXPORT PATH */
 module.exports = app;
-
