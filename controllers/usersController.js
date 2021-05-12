@@ -12,7 +12,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("fullName email");
     if (!user) throw new createError.NotFound();
     res.status(200).send(user);
   } catch (e) {
