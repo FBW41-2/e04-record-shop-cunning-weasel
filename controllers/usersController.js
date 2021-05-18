@@ -93,4 +93,3 @@ exports.loginUser = async (req, res, next) => {
     res.json({ error: "wrong password - the hell's wrong wit you?" });
   }
 };
-
