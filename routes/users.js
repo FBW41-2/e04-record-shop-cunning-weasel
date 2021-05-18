@@ -23,6 +23,6 @@ router
 router.route("/:id").get(getUser).delete(deleteUser).put(updateUser);
 
 // user login route w bcrypt
-router.route("/users/login").post(loginUser);
+router.route("/login").post(loginUser);
 
 module.exports = router;
