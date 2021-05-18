@@ -8,10 +8,8 @@ const OrderSchema = new Schema({
   },
   records: [
     {
-      title: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Record",
-      },
     },
   ],
 });

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema(
   {
@@ -44,6 +45,12 @@ const UserSchema = new Schema(
     },
   }
 );
+
+UserSchema.pre("save", async function(next) {
+  console.log(this);
+  this.password = await bcrypt.hash(this.password || this._update.password, 20);
+  next();
+});
 
 UserSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
