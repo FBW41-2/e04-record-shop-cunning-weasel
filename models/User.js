@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new Schema(
   {
@@ -51,6 +53,17 @@ UserSchema.pre("save", async function (next) {
   console.log("UserModel", this);
   next();
 });
+
+// create token here for reuse
+UserSchema.methods.generateToken = function (next) {
+  const token = jwt.sign(user._id.toHexString(), process.env.TOKEN_SECRET);
+  this.token = token;
+  user.save(function (err, user) {
+    if (err) {
+      return;
+    }
+  });
+};
 
 UserSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
