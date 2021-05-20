@@ -40,14 +40,7 @@ exports.updateUser = async (req, res, next) => {
   // const token = req.headers.key;
   // const userData = req.body;
   // replace above with JWT
-  const token = req.headers["x-auth"];
-  const userToken = jwt.verify(token, process.env.TOKEN_SECRET);
   // encrypt password
-  const loggedInUser = await User.findOne({ token: token });
-  console.log("token", token);
-  if (!loggedInUser || !token) {
-    return next({ error: "Don't be a penguin, log in" });
-  }
   try {
     const user = await User.findByIdAndUpdate(req.params.id, userToken, {
       new: true,
@@ -68,6 +61,7 @@ exports.addUser = async (req, res, next) => {
     return res.status(422).json({ errors: errors.array() });
   }
   const token = crypto.randomBytes(20).toString("hex");
+  // change the above to take function call from generateAuthToken
   const user = new User(req.body);
   try {
     await user.save();
@@ -80,18 +74,17 @@ exports.addUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   const userCredentials = req.body;
   const foundUser = await User.findOne({
-    email: userCredentials.email,
-    password: userCredentials.password,
+    email: userCredentials.email
   }).select("+password");
   console.log(userCredentials, foundUser);
   if (!foundUser) {
     res.json({ error: "No such User mate" });
-  } else if (await bcrypt.compare(userCredentials.password, password)) {
+  } else if (await bcrypt.compare(userCredentials.password, foundUser.password)) {
     // const token = crypto.randomBytes(10).toString("hex");
     // create jwt to replace above regular token
-    const token = jwt.sign(foundUser, process.env.TOKEN_SECRET);
+    const token = jwt.sign(foundUser.toObject(), process.env.TOKEN_SECRET);
     // store key in user  DB entry
-    await foundUser.findOneByIdAndUpdate(foundUser.id, { token });
+    await User.findByIdAndUpdate(foundUser.id, { token });
     return res
       .set({ "x-auth": token })
       .json({ status: "you're in bruh", token: token });

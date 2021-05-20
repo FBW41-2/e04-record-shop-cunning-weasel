@@ -7,9 +7,10 @@ module.exports = (req, res, next) => {
     if (token === null) {
       return res.sendStatus(401);
     }
-
+    // see if user provided valid token with request
     const tokenData = jwt.verify(token, process.env.TOKEN_SECRET);
 
+    // get info back out of token
     req.user = tokenData;
 
     next();

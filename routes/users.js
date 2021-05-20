@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-// import body func from express validator
 const userValidators = require("../lib/userRules");
 const generateValidator = require("../middleware/validator");
 const checkLogin = require("../middleware/checkLogin");
+const checkAdminRole = require("../middleware/checkAdminRole");
 const {
   getUsers,
   getUser,
@@ -21,10 +21,10 @@ router
 
 router
   .route("/:id")
-  .get(getUser)
-  .delete(deleteUser)
+  .get(checkLogin, getUser)
+  .delete(checkLogin, checkAdminRole, deleteUser)
   .put(checkLogin, updateUser);
 
-router.route("/login").post(checkLogin, loginUser);
+router.route("/login").post(loginUser);
 
 module.exports = router;

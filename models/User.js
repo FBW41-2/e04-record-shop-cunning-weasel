@@ -14,6 +14,9 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    token: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -37,6 +40,11 @@ const UserSchema = new Schema(
         required: true,
       },
     },
+    role: {
+      type: String,
+      enum: ["Admin", "User"],
+      required: true,
+    },
   },
   {
     toObject: {
@@ -56,13 +64,9 @@ UserSchema.pre("save", async function (next) {
 
 // create token here for reuse
 UserSchema.methods.generateToken = function (next) {
-  const token = jwt.sign(user._id.toHexString(), process.env.TOKEN_SECRET);
+  const token = jwt.sign({ role: this.role, id: this.id, email: this.email }, process.env.TOKEN_SECRET);
   this.token = token;
-  user.save(function (err, user) {
-    if (err) {
-      return;
-    }
-  });
+  return token;
 };
 
 UserSchema.virtual("fullName").get(function () {

@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const checkAdminRole = require("../middleware/checkAdminRole");
+const checkLogin = require("../middleware/checkLogin");
 const {
   getRecords,
   getRecord,
@@ -10,13 +12,13 @@ const {
 
 router
   .route("/")
-  .get(getRecords)
-  .post(addRecord);
+  .get(checkLogin, getRecords)
+  .post(checkLogin, addRecord);
 
 router
   .route("/:id")
-  .get(getRecord)
-  .delete(deleteRecord)
-  .put(updateRecord);
+  .get(checkAdminRole, getRecord)
+  .delete(checkAdminRole, deleteRecord)
+  .put(checkAdminRole, updateRecord);
 
 module.exports = router;
