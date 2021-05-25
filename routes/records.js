@@ -12,13 +12,14 @@ const {
 
 router
   .route("/")
-  .get(checkLogin, getRecords)
+  .get(getRecords)
   .post(checkLogin, addRecord);
 
 router
   .route("/:id")
-  .get(checkAdminRole, getRecord)
-  .delete(checkAdminRole, deleteRecord)
-  .put(checkAdminRole, updateRecord);
+  .get(checkLogin, getRecord)
+  .delete(checkLogin, checkAdminRole, deleteRecord)
+  .put(checkLogin, updateRecord);
 
 module.exports = router;
+

@@ -3,16 +3,27 @@ const createError = require("http-errors");
 
 exports.getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find().populate("records");
+    const orders = await Order.find().populate("records", "-_v -price -year");
     res.status(200).send(orders);
   } catch (e) {
     next(e);
   }
 };
 
+exports.getUserOrders = async (req, res, next) => {
+  try {
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 exports.getOrder = async (req, res, next) => {
   try {
-    const order = await Order.findById(req.params.id).populate("records");
+    const order = await Order.findById(req.params.id).populate(
+      "records",
+      "-_v -price -year"
+    );
     if (!order) throw new createError.NotFound();
     res.status(200).send(order);
   } catch (e) {
