@@ -23,7 +23,7 @@ router
   .route("/:id")
   .get(checkLogin, getUser)
   .delete(checkLogin, checkAdminRole, deleteUser)
-  .put(checkLogin, updateUser);
+  .put(checkLogin, checkAdminRole, updateUser);
 
 router.route("/login").post(loginUser);
 
