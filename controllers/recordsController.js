@@ -31,7 +31,11 @@ exports.deleteRecord = async (req, res, next) => {
 };
 
 exports.updateRecord = async (req, res, next) => {
+  console.log("udpate record", "file", req.file, req.body);
   try {
+    if (req.file) {
+      req.body.img = req.file.path.replace("public/", "");
+    }
     const record = await Record.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     });
